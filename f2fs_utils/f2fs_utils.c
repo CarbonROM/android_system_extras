@@ -41,17 +41,16 @@ struct selabel_handle;
 #include "make_f2fs.h"
 
 extern void flush_sparse_buffs();
+extern void init_sparse_file(unsigned int block_size, int64_t len);
+extern void finalize_sparse_file(int fd);
 
 struct f2fs_configuration c;
-struct sparse_file *f2fs_sparse_file;
 extern int dlopenf2fs();
 
 static void reset_f2fs_info() {
 	memset(&c, 0, sizeof(c));
-	if (f2fs_sparse_file) {
-		sparse_file_destroy(f2fs_sparse_file);
-		f2fs_sparse_file = NULL;
-	}
+	c.ndevs = -1;
+	c.kd = -1;
 }
 
 int make_f2fs_sparse_fd(int fd, long long len,
@@ -62,15 +61,13 @@ int make_f2fs_sparse_fd(int fd, long long len,
 	}
 	reset_f2fs_info();
 	f2fs_init_configuration();
-	len &= ~((__u64)(F2FS_BLKSIZE - 1));
+	len &= ~((__u64)F2FS_BLKSIZE);
 	c.sector_size = DEFAULT_SECTOR_SIZE;
 	c.total_sectors = len / c.sector_size;
 	c.start_sector = 0;
-	f2fs_sparse_file = sparse_file_new(F2FS_BLKSIZE, len);
+	init_sparse_file(F2FS_BLKSIZE, len);
 	f2fs_format_device();
-	sparse_file_write(f2fs_sparse_file, fd, /*gzip*/0, /*sparse*/1, /*crc*/0);
-	sparse_file_destroy(f2fs_sparse_file);
+	finalize_sparse_file(fd);
 	flush_sparse_buffs();
-	f2fs_sparse_file = NULL;
 	return 0;
 }
