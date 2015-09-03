@@ -16,12 +16,6 @@ cc_library_host_static {
     ],
 
     cflags: ["-Wno-unused-parameter"],
-
-    target: {
-        darwin: {
-            enabled: false,
-        },
-    },
 }
 
 cc_library_host_static {
@@ -42,12 +36,6 @@ cc_library_host_static {
         "libext2_uuid",
         "libz",
     ],
-
-    target: {
-        darwin: {
-            enabled: false,
-        },
-    },
 }
 
 cc_library_host_static {
@@ -61,12 +49,6 @@ cc_library_host_static {
     ],
     // Will attempt to dlopen("libf2fs_fmt_host_dyn")
     host_ldlibs: ["-ldl"],
-
-    target: {
-        darwin: {
-            enabled: false,
-        },
-    },
 }
 
 cc_binary_host {
@@ -94,12 +76,6 @@ cc_binary_host {
     ],
 
     required: ["libf2fs_fmt_host_dyn"],
-
-    target: {
-        darwin: {
-            enabled: false,
-        },
-    },
 }
 
 cc_library_shared {
@@ -113,12 +89,6 @@ cc_library_shared {
     ],
 
     shared_libs: ["libdl"],
-
-    target: {
-        darwin: {
-            enabled: false,
-        },
-    },
 }
 
 cc_library_static {
@@ -132,12 +102,6 @@ cc_library_static {
     ],
 
     shared_libs: ["libdl"],
-
-    target: {
-        darwin: {
-            enabled: false,
-        },
-    },
 }
 
 cc_library_static {
@@ -153,12 +117,6 @@ cc_library_static {
     cflags: ["-Wno-unused-parameter"],
 
     static_libs: ["libsparse"],
-
-    target: {
-        darwin: {
-            enabled: false,
-        },
-    },
 }
 
 cc_library_shared {
