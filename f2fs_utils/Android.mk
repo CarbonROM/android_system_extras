@@ -2,7 +2,7 @@
 
 LOCAL_PATH:= $(call my-dir)
 
-ifeq ($(HOST_OS),linux)
+ifneq (,$(filter linux darwin,$(HOST_OS)))
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := libf2fs_utils_host
